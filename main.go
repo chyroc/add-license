@@ -1,10 +1,11 @@
 /**
  * Copyright 2022 chyroc
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at*
+ * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0*
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -99,13 +100,21 @@ func wrapLicense(license string) string {
 	res := []string{}
 	res = append(res, "/**")
 	for _, v := range strings.Split(license, "\n") {
-		res = append(res, " * "+strings.TrimSpace(v))
+		v = strings.TrimSpace(v)
+		if v == "" {
+			res = append(res, " *")
+		} else {
+			res = append(res, " * "+v)
+		}
 	}
 	res = append(res, " */")
 	return strings.Join(res, "\n")
 }
 
 func wrapContent(license, file string) string {
+	if strings.Contains(file, license) {
+		return file
+	}
 	files := strings.Split(file, "\n")
 	licenses := strings.Split(license, "\n")
 	res := []string{}
